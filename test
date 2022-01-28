@@ -3,6 +3,8 @@ name: fetch and merge
 on:
   push:
     branches: [master]
+  repository_dispatch:
+    types: [fetch-merge]
 
 jobs:
   build:
