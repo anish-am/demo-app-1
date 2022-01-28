@@ -1,0 +1,26 @@
+name: fetch and merge
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: macos-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x]
+
+    steps:
+    - uses: actions/checkout@v2
+    - run: npm ci
+    - run: npm run build --if-present
+    - run: npm test
+    - run: git remote add upstream https://github.com/anish-am/demo-app.git
+    - run: git config --local user.email "action@github.com"
+    - run: git config --local user.name "GitHub Action"
+    - run: git fetch upstream
+    - run: git merge upstream/master --allow-unrelated-histories
+    - run: git push
