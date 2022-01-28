@@ -1,0 +1,29 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: fetch and merge
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 13 * * 1"
+
+jobs:
+  sync:
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Sync and merge upstream repository with your current repository
+      uses: dabreadman/sync-upstream-repo@v1.0.0.b
+      with:
+        # URL of gitHub public upstream repo
+        upstream_repo: https://github.com/ANISH0309/demo-app
+        # Branch to merge from upstream (defaults to downstream branch)
+        upstream_branch: master
+        # Branch to merge into downstream
+        downstream_branch: master
+        # GitHub Bot token
+        token: ${{ secrets.GITHUB_TOKEN }}
+
